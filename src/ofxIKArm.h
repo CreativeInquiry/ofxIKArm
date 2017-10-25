@@ -16,6 +16,7 @@ public:
     bool load( string aPath );
     bool save( string aPath="" );
     void setup( ofVec3f aGlobalShoulderPos, float aUpperArmLength, float aLowerArmLength );
+    void setup( ofVec3f aGlobalShoulderPos, ofVec3f aGlobalElbowPos, ofVec3f aGlobalHandPos );
     void update();
     void draw();
     
@@ -35,6 +36,10 @@ public:
     float getUpperArmLength();
     float getLowerArmLength();
     
+    shared_ptr< ofxJoint > getShoulderJoint();
+    shared_ptr< ofxJoint > getElbowJoint();
+    shared_ptr< ofxJoint > getHandJoint();
+    
     ofVec3f getTarget();
     ofVec3f getElbowTarget();
     ofVec3f getShoulderPos();
@@ -42,6 +47,19 @@ public:
     ofVec3f getShoulderGlobalPos();
     ofVec3f getElbowGlobalPos();
     ofVec3f getHandGlobalPos();
+    
+    // if this is set, then the elbow target will not work
+    void setShoulderUpVector( ofVec3f aShoulderUpVec );
+    void setShoulderUpVectorEnabled( bool ab );
+    bool isShoulderUpVectorEnabled();
+    ofVec3f getShoulderUpVector();
+    
+    bool isInverted();
+    void setInverted( bool ab );
+    
+    ofVec3f getYawPitchRoll( ofQuaternion aquat );
+    ofQuaternion getQuatFromEuler(double pitch, double roll, double yaw);
+    ofQuaternion getLookAt( ofVec3f aLookDir, ofVec3f aUpVec );
     
 protected:
     string _saveFilePath;
@@ -53,4 +71,8 @@ protected:
     ofVec3f elbowtarget, target;
     
     float armLength;
+    bool bUpVectorEnabled;
+    ofVec3f mShoulderUpVec;
+    bool mBWasSuccessful;
+    bool mInverted=false;
 };
